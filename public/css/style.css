@@ -1,0 +1,53 @@
+body{
+	background-color:#eee;
+	margin:0px;
+	padding:0px;
+	transition: all 1s;
+}
+.init{
+	height: 100vh;
+	margin:0px;
+	transition: all 1s, opacity 0.6s;
+	padding-top:0px;
+}
+.title{
+	text-align='center';
+}
+.loggin{
+	position:fixed;
+	top:0px;
+	border:1px solid #9a9a9a;
+	background-color:#d1d1d1;
+	padding:10px;
+	right:0px;
+	width:3%;
+	min-height:auto !important;
+	transition: all 0.5s;
+}
+#formlog{
+	display:none;
+}
+#log{
+	transition: all 1s;
+	
+}
+.jumbotron{
+	padding-bottom:0px;
+	padding-top:0px;
+}
+label{
+	display:inline;
+}
+#msg,#butt{
+	display:none;
+}
+#status{
+	display:none;
+	transition: all 1s;
+}
+#caricamento{
+	display:none;
+}
+#submenu{margin-top:20px;border-bottom: 2px solid #aaa;border-top:2px solid #aaa;display:none;width:60%;transition:all 0.5s;font-weight: bold;cursor:pointer;}
+#submenu:hover{width:80%;background-color:#a9a9a9;}
+#submenu p{width:70%;margin:10px auto;}

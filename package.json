@@ -1,0 +1,11 @@
+{
+  "name": "agar-by-rock",
+  "version": "0.0.1",
+  "description": "Agar.io for Rgi",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "firebase": "^2.4.1",
+    "socket.io": "^1.4.5"
+  }
+}

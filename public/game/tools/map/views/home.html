@@ -1,0 +1,17 @@
+<div class='col-md-12'>
+	<h1>Creator Map	<small>Strumento per la creazione dei Dungeons!</small></h1>
+	<p>Scegli la texture che preferisci!</p>
+	<div class='container'>
+		<div class='row'>
+			<div class='col-sm-6'>
+				<select onchange="cambiaImg(this)" id='texture' name='textures' class='form-control' ng-model="texture">
+					<option value="">--Seleziona la texture--</option>
+					<option value='1'>Standard</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div id='imm' ng-click="settaTexture(texture); goTo('/map');">
+		<img id='imgtext' name='texture' src='' alt=''>
+	</div>
+</div>

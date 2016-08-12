@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Node & Dragons</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel='stylesheet' type='text/css' href='css/bootstrap.min.css'>
+		<link rel='stylesheet' type='text/css' href='css/bootstrap-theme.min.css'>
+		<link rel='stylesheet' type='text/css' href='css/style.css'>
+		<script language="javascript" src='js/lib/jquery-2.2.1.min.js'></script>
+		<script language="javascript" src='js/lib/socket.io.js'></script>
+		<script language="javascript" src='js/lib/firebase.js'></script>
+		<script language="javascript" src='js/animazione.js'></script>
+		<script language="javascript" src='js/lib/md5.min.js'></script>
+		<script language="javascript" src='js/utility/costanti.js'></script>
+		<script language="javascript" src='js/login.js'></script>
+		
+	</head>
+	<body>
+		<div class='init jumbotron'>
+			<div class='container'>
+				<div class='row'>
+					<div class='title col-md-9'>
+						<div class='jumbotron'>
+							<h1>Node & Dragons</h1>
+							<h2>"Il classico che incontra le nuove tecnologie"</h2>
+							<h3>Entra a far parte del gioco più avvincente di sempre!</h3>
+							<h5 id='status'>Registrato correttamente! Effettua il login per iniziare a giocare!</h5>
+							<form id='regis' name='regis' method='post'>
+								<div class='form-group'>
+									<label for='nome'>Nome:</label>
+									<input type='text' class='form-control' name='nome' id='nome' placeholder='Inserisci il tuo nome..'>
+								</div>
+								<div class='form-group'>
+									<label for='cognome'>Cognome:</label>
+									<input type='text' class='form-control' name='cognome' id='cognome' placeholder='Inserisci il tuo cognome..'>
+								</div>
+								<div class='form-group'>
+									<label for='email'>E-mail:</label>
+									<input type='email' class='form-control' name='email' id='email' placeholder='Inserisci il tuo indirizzo di posta elettronica..'>
+								</div>
+								<div class='form-group'>
+									<label for='usern'>Username:</label>
+									<input type='text' class='form-control' name='username' id='usern' placeholder='Inserisci il tuo username..'>
+								</div>
+								<div class='form-group'>
+									<label for='passw'>Pasword:</label>
+									<input type='password' class='form-control' name='password' id='passw' placeholder='Inserisci la password..'>
+								</div>
+								
+							</form>
+							<button name='registra' id='reg' class='btn btn-primary'>Registrati!</button><img id='caricamento' src='img/load.gif' alt='Attendere...'>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='loggin'>
+			<span id='log' class='glyphicon glyphicon-chevron-left' aria-hidden="true"></span>
+			<form name='auth' id='formlog' method='post'>
+				<div class="form-group">
+					<label for='mail'>Email:</label>
+					<input type='text' class="form-control" name='email' id='mail' placeholder='Inserisci la tua mail...'>
+				</div>
+				<div class='form-group'>
+					<label for='pass'>Password:</label>
+					<input type='password' class='form-control' name='password' id='pass' placeholder='Inserisci la password...'>
+				</div>
+				
+			</form>
+			<button name='invia' id='butt' class="btn btn-default">Login</button>
+			<div id='msg' class="alert alert-danger" role="alert"></div>
+			<div id='submenu' onclick='goTo("mappa")'>
+				<p>CREA MAPPA</p>
+			</div>
+		</div>			
+	</body>
+</html>

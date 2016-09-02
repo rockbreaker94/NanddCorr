@@ -1,3 +1,4 @@
 *.db
 push_master.bat
 launch.json
+*.db

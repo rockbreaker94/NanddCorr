@@ -11,6 +11,7 @@ $(window).ready(function(){
 			$(".init").css("opacity","1");
 			$(".loggin").css("height","auto");
 			$(".init input").prop("disabled",false);
+			$("#vers").css("display","none");
 		}
 		else{
 			$(".loggin").css("height","100%");
@@ -22,6 +23,7 @@ $(window).ready(function(){
 			$("#submenu").delay(1000).css("display","block");
 			$("#log").css("transform","rotate(180deg)");
 			$(".init input").prop("disabled",true);
+			$("#vers").delay(1000).css("display","block");
 		}
 		
 	});

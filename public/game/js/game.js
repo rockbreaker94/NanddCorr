@@ -16,47 +16,14 @@ window.onunload= function(){
 }
 window.onload = function() {
 	
-	document.onmouseup = function() {
-		document.onmousemove = null
-	}
-	
-	
+	document.onmouseup = docMouseUp;
     var game = new Game(WIDTH, HEIGHT);
 	document.onkeydown = keyCtrl;
-	function keyCtrl(e){
-		e = e || event
-		if(e.keyCode==73)
-		{
-			if(inventario.isVisible())
-				inventario.setVisible(false);
-			else
-				inventario.setVisible(true);
-		}
-		else if(e.keyCode==80)
-		{
-			if(personaggio.isVisible())
-				personaggio.setVisible(false);
-			else
-				personaggio.setVisible(true);
-		}
-		else if(e.keyCode==65)
-		{
-			if(abilita.isVisible())
-				abilita.setVisible(false);
-			else
-				abilita.setVisible(true);
-		}
-	}
 	game.scale = SCALE;
 	var players = [];
 	var stage = new Group();
 	var cookies = document.cookie;
-	inventario.createDiv(950,100,350,1000,"Inventario",INVENTARIO);
-	inventario.setText("Oggetti");
-	personaggio.createDiv(50,100,400,1000,"Personaggio",PERSONAGGIO);
-	personaggio.setText("Caratteristiche");
-	abilita.createDiv(50,100,400,1000,"Abilità",ABILITA);
-	abilita.setText("Abilità e talenti");
+	initPopUp(inventario,personaggio,abilita);
 	lNomi = new Array(1024);
 	TOKEN = cookies.split("; ")[1].split("=")[1];
 	NOME = cookies.split("; ")[0].split("=")[1];
@@ -66,9 +33,10 @@ window.onload = function() {
 	}
 	var indicePersonale = 0;
     game.fps = 20;
-    game.preload('img/map1.gif', 'img/chara0.gif');
+    game.preload('img/map1.gif', 'img/chara0.gif','img/texture.gif');
     game.onload = function() {
         var map = new Map(16, 16);
+		
         map.image = game.assets['img/map1.gif'];
 		$.get('maps/m1.mdg',function(data){
 			map.loadData(getMappa(data,0),getMappa(data,1));
@@ -76,7 +44,7 @@ window.onload = function() {
         $.get('maps/m1.mdc',function(data){
 			map.collisionData=getMappa(data,0);
 		});                                                                                                                                                                                                      
-                                                                                                                                                                                                                
+                                                                                                                                                                                                             
         var foregroundMap = new Map(16, 16);                                                                                                                                                                    
         foregroundMap.image = game.assets['img/map1.gif'];                                                                                                                                                      
         $.get('maps/m1.mdf',function(data){
@@ -134,74 +102,18 @@ window.onload = function() {
                         arguments.callee.call(this);
 						
                     }
-					console.log("X: "+x+" Y: "+y);
-					if(x==328 && y==592)
-					{
-						//TODO: creare Mappa stanza1
-						var mapStanza1 = new Map(16,16);
-						var foregroundMapStanza1 = new Map(16,16);
-						var stageStanza1 = new Group();
-						game.rootScene.removeChild(stage);
-						stageStanza1.addChild(mapStanza1);
-						stageStanza1.addChild(player);
-						stageStanza1.addChild(foregroundMapStanza1);
-						
-					}
+					checkPpCs(game,stage,player,x,y,indicePersonale);
+					
                 }
             }
         });
-		
-        
         stage.addChild(map);
-		socket.on('position',function(position){
-			var p = json2array(JSON.parse(position));
-			for(var i=0;i<players.length;i++){
-				stage.removeChild(players[i]);
-				stage.removeChild(lNomi[i]);
-			}
-			players = [];			
-			for(var i=0;i<p.length;i++)
-			{
-				if(p[i] !=null && indicePersonale!=p[i].i)
-				{
-					players[p[i].i] = null;
-					players[p[i].i] = new Sprite(32, 32);
-					lNomi[p[i].i] = new Label(p[i].n);
-					lNomi[p[i].i].color = "#FFF";
-					lNomi[p[i].i].x = p[i].x-18;
-					lNomi[p[i].i].y = p[i].y-10;
-					players[p[i].i].x = p[i].x;
-					players[p[i].i].y = p[i].y;
-					var image = new Surface(96, 128);
-					image.draw(game.assets['img/chara0.gif'], 0, 0, 96, 128, 0, 0, 96, 128);
-					players[p[i].i].image = image;
-					players[p[i].i].isMoving = false;
-					players[p[i].i].direction = p.d;
-					players[p[i].i].walk = 1;
-					stage.addChild(players[p[i].i]);
-					stage.addChild(lNomi[p[i].i]);
-				}
-			}
-		});
-		socket.on('init',function(pos){
-			var p = JSON.parse(pos);
-			player.x = p.x;
-			player.y = p.y;
-			indicePersonale = p.i;
-			lNomi[indicePersonale] = new Label(p.n);
-			lNomi[indicePersonale].color = "#FFF";
-			lNomi[indicePersonale].x = player.x-18;
-			lNomi[indicePersonale].y = player.y-10;
-			stage.addChild(player);
-			stage.addChild(lNomi[indicePersonale]);
-		});
+		updatePos(socket,stage,lNomi,players,player,game);
+		
         stage.addChild(foregroundMap);
         game.rootScene.addChild(stage);
 
-        var pad = new Pad();
-        pad.x = 0;
-        pad.y = PAD_HEIGHT;
-        game.rootScene.addChild(pad);
+        creazionePad(game);
 
         game.rootScene.addEventListener('enterframe', function(e) {
             var x = Math.min((game.width) / 2 - player.x, 0);
@@ -211,6 +123,18 @@ window.onload = function() {
             stage.x = x;
             stage.y = y;
         });
+		socket.on('init',function(pos){
+		var p = JSON.parse(pos);
+		player.x = p.x;
+		player.y = p.y;
+		indicePersonale=p.i;
+		lNomi[indicePersonale] = new Label(p.n);
+		lNomi[indicePersonale].color = "#FFF";
+		lNomi[indicePersonale].x = player.x-18;
+		lNomi[indicePersonale].y = player.y-10;
+		stage.addChild(player);
+		stage.addChild(lNomi[indicePersonale]);
+	});
     };
     game.start();
 	socket.on('positions',function(positions){
@@ -252,57 +176,5 @@ window.onload = function() {
 		alert(error);
 		window.location = window.location.protocol+window.location.host+window.location.pathname;
 	})
+	
 };
-function json2array(json){
-    var result = [];
-    var keys = Object.keys(json);
-    keys.forEach(function(key){
-        result.push(json[key]);
-    });
-    return result;
-}
-function getMappa(data,num){
-	var _map = [];
-	var contaMap = 0;
-	var _mappa = data.split("[");
-	var j=0;
-	var s=0;
-	for(var i=0;i<=1;i++)
-	{
-		if(typeof _mappa[j]!=='undefined' && (_mappa[j].length==0||_mappa[j].length==1))
-		{
-			_map[i]=new Array();
-			
-			j++;
-			for(s=0;j<_mappa.length&&_mappa[j].length>1;j++,s++)
-			{
-				_map[i][s] = new Array();
-				var len = _mappa[j].length;
-				var str = typeof _mappa[j+1]==='undefined' ||(_mappa[j+1].length==1||j+1==_mappa.length)? _mappa[j].substr(0,len-4):_mappa[j].substr(0,len-3);				
-				var val = str.split(",");				
-				for(var h=0;h<val.length;h++)
-				{
-					_map[i][s][h] = parseInt(val[h]);
-				}
-			}		
-		}
-	}
-	return _map[num];
-}
-function mouseCtrl(ogg,tit){
-	document.onmousemove = function(e){
-		e = e || event
-		var pop = document.getElementsByClassName("popup")[ogg];
-		pop.style.left = e.pageX-(tit.offsetWidth/2)+'px';
-		pop.style.top = e.pageY-(tit.offsetHeight/2)+'px';
-	}
-}
-function chiudi(ogg)
-{
-	if(ogg==0)
-		inventario.setVisible(false);
-	else if(ogg==1)
-		personaggio.setVisible(false);
-	else if(ogg==2)
-		abilita.setVisible(false);
-}

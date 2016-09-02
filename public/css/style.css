@@ -24,6 +24,7 @@ body{
 	min-height:auto !important;
 	transition: all 0.5s;
 }
+#vers{display:none;position: relative;left: 78%;top: 56%;}
 #formlog{
 	display:none;
 }

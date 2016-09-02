@@ -2,9 +2,13 @@ function goTo(str){
 		if(str==='mappa')
 			window.location = "game/tools/map/";
 	}
+jQuery.get('version.txt', function(data) {
+		$("#vers").html("<p>"+data+"</p>");
+	});
 $(window).ready(function(){
 	
 	var socket = io();
+	
 	$( "#butt" ).click(function() {
 		$('#msg').css("display","none");
 		var mail = $("#mail").val();

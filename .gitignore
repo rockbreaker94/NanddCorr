@@ -2,6 +2,6 @@
 push_master.bat
 launch.json
 *.db
-*.gitignore
 node_modules/*.*
 *.bat
+.gitignore

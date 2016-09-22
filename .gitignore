@@ -2,3 +2,4 @@
 push_master.bat
 launch.json
 *.db
+node_modules/*.*

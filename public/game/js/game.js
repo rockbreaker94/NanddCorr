@@ -108,7 +108,7 @@ window.onload = function() {
             }
         });
         stage.addChild(map);
-		updatePos(socket,stage,lNomi,players,player,game);
+		updatePos(socket,stage,lNomi,players,player,game,indicePersonale);
 		
         stage.addChild(foregroundMap);
         game.rootScene.addChild(stage);
